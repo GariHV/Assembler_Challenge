@@ -1,4 +1,4 @@
-import { Card, Spacer } from '@nextui-org/react';
+import { Spacer } from '@nextui-org/react';
 import { NextPage } from 'next';
 import React, { useEffect } from 'react';
 import Image from 'next/image';

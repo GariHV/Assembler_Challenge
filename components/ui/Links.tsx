@@ -18,7 +18,7 @@ const useStyles = makeStyles(() => ({
   selected: {},
 }));
 
-export default function LabelBottomNavigation() {
+export default function Links() {
   const { theme } = useTheme();
   const classes = useStyles();
   const [value, setValue] = React.useState('recents');
@@ -33,7 +33,7 @@ export default function LabelBottomNavigation() {
   return (
     <BottomNavigation
       sx={{
-        width: 800,
+        width: '30%',
         backgroundColor: theme?.colors.gray900.value,
         color: 'white',
       }}
