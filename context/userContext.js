@@ -1,9 +1,9 @@
 import { createContext, useState } from 'react';
 
-const UserContext = createContext();
+export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [userGlobal, setUser] = useState(null);
 
   const login = (user) => {
     setUser(user);
@@ -14,7 +14,7 @@ export const UserProvider = ({ children }) => {
   };
 
   return (
-    <UserContext.Provider value={{ user, login, logout }}>
+    <UserContext.Provider value={{ userGlobal, login, logout }}>
       {children}
     </UserContext.Provider>
   );

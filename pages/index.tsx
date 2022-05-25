@@ -1,31 +1,12 @@
-import { Button, Card } from '@nextui-org/react';
-import type { NextPage } from 'next';
-import Head from 'next/head';
-import Image from 'next/image';
-import styles from '../styles/Home.module.css';
-
+import { NextPage } from 'next';
+import React from 'react';
+import { Layout } from '../components/layouts';
+import { Navbar } from '../components/ui';
 const Home: NextPage = () => {
   return (
-    <div
-      style={{
-        display: 'flex',
-        width: '100%',
-        height: '60em',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-    >
-      <Card
-        style={{
-          width: '70%',
-          height: '30em',
-        }}
-      >
-        Test
-        <Button>Test</Button>
-      </Card>
-    </div>
+    <Layout>
+      <Navbar />
+    </Layout>
   );
 };
 
