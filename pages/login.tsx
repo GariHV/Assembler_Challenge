@@ -1,79 +1,150 @@
-import { Button, Card, Input, Spacer, Text } from '@nextui-org/react';
-import type { NextPage } from 'next';
-import { useRouter } from 'next/router';
+import * as React from 'react';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import Link from '@mui/material/Link';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
 import Image from 'next/image';
 import logo from '../components/assets/logo.png';
+import { Text } from '@nextui-org/react';
+import { useRouter } from 'next/router';
+import {
+  signInWithEmailAndPassword,
+  getAuth,
+  createUserWithEmailAndPassword,
+} from 'firebase/auth';
 import firebaseApp from '../lib/firebase/credentials';
-import { getAuth } from 'firebase/auth';
 
-const Login: NextPage = () => {
-  const auth = getAuth(firebaseApp);
+function Copyright(props: any) {
+  return (
+    <Typography
+      variant="body2"
+      color="text.secondary"
+      align="center"
+      {...props}
+    >
+      {'Copyright © '}
+      <Link color="inherit" href="localhost:3000">
+        PYF
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
+}
+const auth = getAuth(firebaseApp);
+
+export default function Login() {
+  const [newUser, setNewUser] = React.useState(true);
   const router = useRouter();
   const handleClick = () => {
-    router.push('/signin');
+    setNewUser(!newUser);
+  };
+  const handleSubmit = async (
+    event: React.FormEvent<HTMLFormElement>
+  ) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const email = data.get('email')?.toString();
+    const password = data.get('password')?.toString();
+    if (email && password) {
+      try {
+        if (newUser) {
+          const user = await createUserWithEmailAndPassword(
+            auth,
+            email,
+            password
+          );
+          router.push('/');
+        } else {
+          const user = await signInWithEmailAndPassword(
+            auth,
+            email,
+            password
+          );
+          router.push('/');
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        width: '100%',
-        height: '60em',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-    >
-      <Card
-        style={{
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <Box
+        sx={{
+          marginTop: 8,
           display: 'flex',
-          width: '50%',
-          height: '40em',
           flexDirection: 'column',
           alignItems: 'center',
-          justifyContent: 'center',
         }}
       >
         <Image src={logo} width={200} height={200} />
-        <form
-          style={{
-            display: 'flex',
-            width: '50%',
-            height: '15em',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
+        <Typography component="h1" variant="h5">
+          {newUser ? 'Sign up' : 'Sign in'}
+        </Typography>
+        <Box
+          component="form"
+          onSubmit={handleSubmit}
+          noValidate
+          sx={{ mt: 1 }}
         >
-          <Input
-            clearable
-            bordered
-            labelPlaceholder="E-Mail"
-            initialValue=""
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="email"
+            label="Email Address"
+            name="email"
+            autoComplete="email"
+            autoFocus
           />
-          <Spacer y={1.5} />
-          <Input.Password
-            clearable
-            bordered
-            labelPlaceholder="Password"
-            initialValue=""
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label="Password"
+            type="password"
+            id="password"
+            autoComplete="current-password"
           />
-          <Spacer y={1.5} />
-          <Button>Sign up</Button>
-        </form>
-        <Spacer y={1} />
-        <Button>Google</Button>
-        <Spacer y={1.5} />
-        <Text style={{}}>Already have an account?</Text>
-        <Text
-          onClick={() => handleClick()}
-          style={{ color: 'green' }}
+          <Button
+            style={{ color: 'white', backgroundColor: 'black' }}
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
+            {newUser ? 'Sign up' : 'Sign in'}
+          </Button>
+        </Box>
+        <Button
+          style={{ color: 'white', backgroundColor: 'black' }}
+          type="submit"
+          fullWidth
+          variant="contained"
+          sx={{ mt: 3, mb: 2 }}
         >
-          Sign in
-        </Text>
-      </Card>
-    </div>
+          Google
+        </Button>
+        <Grid container>
+          <Grid item>
+            <Text
+              onClick={handleClick}
+              style={{ color: 'gray', cursor: 'pointer' }}
+            >
+              {"Don't have an account? Sign In"}
+            </Text>
+          </Grid>
+        </Grid>
+      </Box>
+      <Copyright sx={{ mt: 8, mb: 4 }} />
+    </Container>
   );
-};
-
-export default Login;
+}

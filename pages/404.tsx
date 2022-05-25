@@ -2,7 +2,7 @@ import { Card, Spacer } from '@nextui-org/react';
 import { NextPage } from 'next';
 import React, { useEffect } from 'react';
 import Image from 'next/image';
-import notfound from '../components/assets/notfound.gif';
+import notfound from '../components/assets/gif/notfound.gif';
 import { useRouter } from 'next/router';
 
 const NotFound: NextPage = () => {
@@ -10,7 +10,7 @@ const NotFound: NextPage = () => {
   useEffect(() => {
     setTimeout(() => {
       router.push('/');
-    }, 6000);
+    }, 5900);
   }, []);
 
   return (
