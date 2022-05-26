@@ -1,5 +1,5 @@
 import { Avatar, useTheme } from '@nextui-org/react';
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import logo from '../assets/logo.png';
 import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
@@ -19,9 +19,11 @@ import { useRouter } from 'next/router';
 const auth = getAuth(firebaseApp);
 
 export const Navbar = () => {
+  const [avatar, setAvatar] = useState('../assets/avatar.png');
   const router = useRouter();
   const { theme } = useTheme();
   const { userGlobal } = React.useContext(UserContext);
+
   const handleSignOut = () => {
     signOut(auth);
   };
@@ -74,6 +76,8 @@ export const Navbar = () => {
       </Search>
       {userGlobal ? (
         <Avatar
+          size={'xl'}
+          src={userGlobal.photoURL}
           style={{
             position: 'absolute',
             color: 'white',

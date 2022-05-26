@@ -33,6 +33,7 @@ export default function Links() {
   return (
     <BottomNavigation
       sx={{
+        marginLeft: '1em',
         width: '30%',
         backgroundColor: theme?.colors.gray900.value,
         color: 'white',
@@ -42,24 +43,28 @@ export default function Links() {
     >
       <BottomNavigationAction
         classes={classes}
+        style={{ color: 'white' }}
         label="Friendship"
         value="friendship"
         icon={<PeopleOutlineIcon />}
       />
       <BottomNavigationAction
         classes={classes}
+        style={{ color: 'white' }}
         label="Love"
         value="love"
         icon={<FavoriteIcon />}
       />
       <BottomNavigationAction
         classes={classes}
+        style={{ color: 'white' }}
         label="Sad"
         value="sad"
         icon={<SentimentVeryDissatisfiedIcon />}
       />
       <BottomNavigationAction
         classes={classes}
+        style={{ color: 'white' }}
         label="Glamour"
         value="glamour"
         icon={<AppShortcutIcon />}

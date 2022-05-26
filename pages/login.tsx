@@ -15,8 +15,13 @@ import {
   signInWithEmailAndPassword,
   getAuth,
   createUserWithEmailAndPassword,
+  signInWithRedirect,
+  GoogleAuthProvider,
 } from 'firebase/auth';
 import firebaseApp from '../lib/firebase/credentials';
+
+const auth = getAuth(firebaseApp);
+const googleAuthProvider = new GoogleAuthProvider();
 
 function Copyright(props: any) {
   return (
@@ -35,13 +40,16 @@ function Copyright(props: any) {
     </Typography>
   );
 }
-const auth = getAuth(firebaseApp);
 
 export default function Login() {
   const [newUser, setNewUser] = React.useState(true);
   const router = useRouter();
   const handleClick = () => {
     setNewUser(!newUser);
+  };
+  const handleGoogle = () => {
+    signInWithRedirect(auth, googleAuthProvider);
+    router.push('/');
   };
   const handleSubmit = async (
     event: React.FormEvent<HTMLFormElement>
@@ -125,6 +133,7 @@ export default function Login() {
           </Button>
         </Box>
         <Button
+          onClick={handleGoogle}
           style={{ color: 'white', backgroundColor: 'black' }}
           type="submit"
           fullWidth
