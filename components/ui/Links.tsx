@@ -4,7 +4,10 @@ import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
+import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
+import CelebrationIcon from '@mui/icons-material/Celebration';
 import AppShortcutIcon from '@mui/icons-material/AppShortcut';
+import GroupIcon from '@mui/icons-material/Group';
 import { makeStyles } from '@mui/styles';
 import { useTheme } from '@nextui-org/react';
 import { UserContext } from '../../context/userContext';
@@ -37,7 +40,7 @@ export default function Links() {
     <BottomNavigation
       sx={{
         marginLeft: '1em',
-        width: '30%',
+        width: '50%',
         backgroundColor: theme?.colors.gray900.value,
         color: 'white',
       }}
@@ -71,6 +74,27 @@ export default function Links() {
         label="Glamour"
         value="glamour"
         icon={<AppShortcutIcon />}
+      />
+      <BottomNavigationAction
+        classes={classes}
+        style={{ color: 'white' }}
+        label="Party"
+        value="party"
+        icon={<CelebrationIcon />}
+      />
+      <BottomNavigationAction
+        classes={classes}
+        style={{ color: 'white' }}
+        label="Happy"
+        value="happy"
+        icon={<InsertEmoticonIcon />}
+      />
+      <BottomNavigationAction
+        classes={classes}
+        style={{ color: 'white' }}
+        label="Group"
+        value="group"
+        icon={<GroupIcon />}
       />
     </BottomNavigation>
   );

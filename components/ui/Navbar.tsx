@@ -9,10 +9,13 @@ import Links from './Links';
 import { getAuth, signOut } from 'firebase/auth';
 import firebaseApp from '../../lib/firebase/credentials';
 import { useRouter } from 'next/router';
-
+import FindInPageIcon from '@mui/icons-material/FindInPage';
+import ModalUpload from './ModalUpload';
 const auth = getAuth(firebaseApp);
 
-export const Navbar = ({ children, search }: any) => {
+export const Navbar = ({ children }: any) => {
+  const [open, setOpen] = React.useState(false);
+
   const router = useRouter();
   const { theme } = useTheme();
   const { userGlobal, handleChangeSearch } =
@@ -39,9 +42,13 @@ export const Navbar = ({ children, search }: any) => {
       }}
     >
       <Image src={logo} width={100} height={100} />
+      {open ? <ModalUpload open={open} setOpen={setOpen} /> : null}
       <Links />
       {userGlobal ? (
         <Button
+          onClick={() => {
+            setOpen(true);
+          }}
           style={{
             position: 'absolute',
             color: 'white',
@@ -80,7 +87,7 @@ export const Navbar = ({ children, search }: any) => {
             color: 'black',
           }}
         >
-          Search
+          <FindInPageIcon />
         </Button>
       </form>
       {userGlobal ? (

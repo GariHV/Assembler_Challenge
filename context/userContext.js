@@ -9,6 +9,7 @@ export const UserProvider = ({ children }) => {
   const [userGlobal, setUser] = useState(null);
   const [search, setSearch] = useState('friendship');
   const [gifsState, setGifsState] = useState([]);
+  const [googleGifs, setGoogleGifs] = useState([]);
   const auth = getAuth(firebaseApp);
 
   useEffect(() => {
@@ -45,6 +46,8 @@ export const UserProvider = ({ children }) => {
         handleChangeSearch,
         gifsState,
         setGifsState,
+        googleGifs,
+        setGoogleGifs,
       }}
     >
       {children}

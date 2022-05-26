@@ -6,7 +6,6 @@ import { getGifs } from '../api';
 import { useEffect } from 'react';
 import { Container } from '@nextui-org/react';
 import {
-  Button,
   Card,
   CardActions,
   CardContent,
@@ -16,17 +15,40 @@ import {
 } from '@mui/material';
 import { UserContext } from '../context/userContext';
 import { useRouter } from 'next/router';
-import { doc, getDoc, getFirestore } from 'firebase/firestore';
+
+import {
+  getDownloadURL,
+  getStorage,
+  listAll,
+  ref,
+} from 'firebase/storage';
 import firebaseApp from '../lib/firebase/credentials';
 
-const firestore = getFirestore(firebaseApp);
+const storage = getStorage(firebaseApp);
 
 const Home: NextPage = () => {
-  const { search, handleChangeSearch, gifsState, setGifsState } =
-    useContext(UserContext);
-  const [googleGifs, setGoogleGifs] = React.useState([]);
+  const {
+    search,
+
+    gifsState,
+    setGifsState,
+
+    googleGifs,
+    setGoogleGifs,
+  } = useContext(UserContext);
   const router = useRouter();
-  console.log(googleGifs);
+  const gifsList = ref(storage, 'documentos/');
+
+  useEffect(() => {
+    listAll(gifsList).then((gifs: any) => {
+      gifs.items.forEach((gif: any) => {
+        console.log(gif);
+        getDownloadURL(gif).then((url: any) => {
+          setGoogleGifs((prev: any) => [...prev, { url }]);
+        });
+      });
+    });
+  }, []);
 
   useEffect(() => {
     handleSearch();
@@ -44,17 +66,14 @@ const Home: NextPage = () => {
     router.push(e);
   };
 
-  const handleTry = (e: any) => {
-    handleChangeSearch(e.target.innerHTML);
-  };
-
   return (
     <Layout>
       <Navbar search={search} />
       <Container>
         <Typography variant="h3" style={{ margin: '10px 0px' }}>
-          Community Gifs
+          Pool of Gifs for: {search}
         </Typography>
+        <hr style={{ margin: '0px 0px 20px 0px' }} />
         <Grid container spacing={3}>
           {gifsState.map((gif: any) => (
             <Grid item xs={12} sm={6} md={4} lg={3} key={gif.id}>
@@ -77,40 +96,44 @@ const Home: NextPage = () => {
                     {gif.title}
                   </Typography>
                 </CardContent>
-                <CardActions></CardActions>
               </Card>
             </Grid>
           ))}
         </Grid>
-        <Typography variant="h3" style={{ margin: '10px 0px' }}>
-          Pool of Gifs for: {search}
+        <Typography
+          variant="h3"
+          style={{ margin: '60px 0px 20px 0px' }}
+        >
+          Community Gifs
         </Typography>
+        <hr style={{ margin: '0px 0px 20px 0px' }} />
         <Grid container spacing={3}>
-          {gifsState.map((gif: any) => (
-            <Grid item xs={12} sm={6} md={4} lg={3} key={gif.id}>
-              <Card sx={{ maxWidth: 345 }}>
-                <CardMedia
-                  component="img"
-                  height="300"
-                  image={gif.images.original.url}
-                  alt={gif.title}
-                  onClick={(e: any) =>
-                    handleTakeIt(e.target.currentSrc)
-                  }
-                />
-                <CardContent>
-                  <Typography
-                    gutterBottom
-                    variant="h5"
-                    component="div"
-                  >
-                    {gif.title}
-                  </Typography>
-                </CardContent>
-                <CardActions></CardActions>
-              </Card>
-            </Grid>
-          ))}
+          {googleGifs !== [] &&
+            googleGifs.map((gif: any) => (
+              <Grid item xs={12} sm={6} md={4} lg={3} key={gif.url}>
+                <Card sx={{ maxWidth: 345 }}>
+                  <CardMedia
+                    component="img"
+                    height="250"
+                    image={gif.url}
+                    alt={gif.title}
+                    onClick={(e: any) =>
+                      handleTakeIt(e.target.currentSrc)
+                    }
+                  />
+                  <CardContent>
+                    <Typography
+                      gutterBottom
+                      variant="h5"
+                      component="div"
+                    >
+                      {gif.title}
+                    </Typography>
+                  </CardContent>
+                  <CardActions></CardActions>
+                </Card>
+              </Grid>
+            ))}
         </Grid>
       </Container>
     </Layout>
