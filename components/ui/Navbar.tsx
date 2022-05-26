@@ -1,16 +1,10 @@
 import { Avatar, useTheme } from '@nextui-org/react';
-import React, { useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import logo from '../assets/logo.png';
 import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
-import {
-  Search,
-  SearchIconWrapper,
-  StyledInputBase,
-} from './Searchbar';
-import SearchIcon from '@mui/icons-material/Search';
 import { UserContext } from '../../context/userContext';
-import { Button } from '@mui/material';
+import { Button, Input } from '@mui/material';
 import Links from './Links';
 import { getAuth, signOut } from 'firebase/auth';
 import firebaseApp from '../../lib/firebase/credentials';
@@ -18,11 +12,11 @@ import { useRouter } from 'next/router';
 
 const auth = getAuth(firebaseApp);
 
-export const Navbar = ({ children }: any) => {
-  const [avatar, setAvatar] = useState('../assets/avatar.png');
+export const Navbar = ({ children, search }: any) => {
   const router = useRouter();
   const { theme } = useTheme();
-  const { userGlobal } = React.useContext(UserContext);
+  const { userGlobal, handleChangeSearch } =
+    React.useContext(UserContext);
 
   const handleSignOut = () => {
     signOut(auth);
@@ -59,21 +53,36 @@ export const Navbar = ({ children }: any) => {
         </Button>
       ) : null}
 
-      <Search
+      <form
         style={{
           position: 'absolute',
           color: 'white',
           right: '200px',
         }}
+        onSubmit={(e: any) => {
+          e.preventDefault();
+          const data = new FormData(e.currentTarget);
+          const content = data.get('content')?.toString();
+          handleChangeSearch(content);
+        }}
       >
-        <SearchIconWrapper>
-          <SearchIcon />
-        </SearchIconWrapper>
-        <StyledInputBase
-          placeholder="Search…"
-          inputProps={{ 'aria-label': 'search' }}
-        />
-      </Search>
+        <Input
+          name="content"
+          style={{
+            backgroundColor: 'white',
+            color: 'black',
+          }}
+        ></Input>
+        <Button
+          type="submit"
+          style={{
+            backgroundColor: 'white',
+            color: 'black',
+          }}
+        >
+          Search
+        </Button>
+      </form>
       {userGlobal ? (
         <Avatar
           size={'xl'}

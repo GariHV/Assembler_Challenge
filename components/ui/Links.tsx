@@ -7,6 +7,7 @@ import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDiss
 import AppShortcutIcon from '@mui/icons-material/AppShortcut';
 import { makeStyles } from '@mui/styles';
 import { useTheme } from '@nextui-org/react';
+import { UserContext } from '../../context/userContext';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -22,12 +23,14 @@ export default function Links() {
   const { theme } = useTheme();
   const classes = useStyles();
   const [value, setValue] = React.useState('recents');
+  const { handleChangeSearch } = React.useContext(UserContext);
 
   const handleChange = (
     event: React.SyntheticEvent,
     newValue: string
   ) => {
     setValue(newValue);
+    handleChangeSearch(newValue);
   };
 
   return (
