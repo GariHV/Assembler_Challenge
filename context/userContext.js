@@ -6,6 +6,7 @@ export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [userGlobal, setUser] = useState(null);
+  const [search, setSearch] = useState('party');
   const auth = getAuth(firebaseApp);
   onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -16,7 +17,7 @@ export const UserProvider = ({ children }) => {
   });
 
   return (
-    <UserContext.Provider value={{ userGlobal }}>
+    <UserContext.Provider value={{ userGlobal, search, setSearch }}>
       {children}
     </UserContext.Provider>
   );

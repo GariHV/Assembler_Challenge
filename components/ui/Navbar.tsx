@@ -18,7 +18,7 @@ import { useRouter } from 'next/router';
 
 const auth = getAuth(firebaseApp);
 
-export const Navbar = () => {
+export const Navbar = ({ children }: any) => {
   const [avatar, setAvatar] = useState('../assets/avatar.png');
   const router = useRouter();
   const { theme } = useTheme();
@@ -110,6 +110,7 @@ export const Navbar = () => {
           }}
         />
       ) : null}
+      {children}
     </div>
   );
 };
