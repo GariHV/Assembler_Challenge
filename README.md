@@ -25,7 +25,6 @@ The `pages/api` directory is mapped to `/api/*`. Files in this directory are tre
 - [Introduction](#introduction)
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
-- [Deployment](#deployment)
 - [Built With](#built-with)
 - [Authors](#authors)
 
