@@ -24,7 +24,7 @@ export default function ModalUpload({ open, setOpen }) {
   const { setGoogleGifs } = React.useContext(UserContext);
   const handleClose = () => setOpen(false);
   const gifsList = ref(storage, 'documentos/');
-
+  let urlDownload;
   const handleSubmit = (e) => {
     e.preventDefault();
   };
