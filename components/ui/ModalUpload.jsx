@@ -20,7 +20,6 @@ import {
 } from 'firebase/storage';
 
 export default function ModalUpload({ open, setOpen }) {
-  let urlDownload;
   const storage = getStorage(firebaseApp);
   const { setGoogleGifs } = React.useContext(UserContext);
   const handleClose = () => setOpen(false);
